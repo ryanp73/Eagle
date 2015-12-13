@@ -1,7 +1,7 @@
 <?php
 
-require_once 'app/config.php';
+require_once './eagle/core/App.php';
 
-$kc = new Event('2015mokc');
-$kc->loadStats();
-print_r($kc->getAllThreeStats(2410));
+print_r($_SERVER['REQUEST_URI']);
+
+App::run();
