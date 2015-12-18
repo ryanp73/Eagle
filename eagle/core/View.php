@@ -2,14 +2,11 @@
 
 class View
 {
-	private function __construct()
-	{
-
-	}
-
 	public static function make($template, $data)
 	{
-		Autoloader::loadTemplate($template);
-		
+		Autoloader::loadView('partials/Header');
+		echo $data->nickname;
+		Autoloader::loadView($template);
+		Autoloader::loadView('partials/Footer');
 	}
 }

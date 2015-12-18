@@ -2,53 +2,43 @@
 
 class Router
 {
-	
-	public $url, $controller, $action, $params = [];
-
-	public function __construct()
+	public static function handleRequests()
 	{
-		if (isset($_SERVER['REQUEST_URI']))
+		$routes = require_once PATH_TO_ROUTES;
+		$url = $_SERVER['REQUEST_URI'];
+
+		if (substr($url, -1) != '/') 
 		{
-			$ru = trim($_SERVER['REQUEST_URI'], '/');
-			$this->url = explode('/', $ru);
-		}
-		else
-		{
-			$this->url = [];
-		}
-		print_r($this->url);
-		if (isset($this->url[0]) && Autoloader::loadController($this->url[0]))
-		{
-			$controllerName = $this->url[0] . 'Controller';
-			$this->controller = new $this->controllerName;
-		}
-		else 
-		{
-			Autoloader::loadController('index');
-			$this->controller = new IndexController();
+			$url .= '/';
 		}
 
-		if (count($this->url) >= 2)
-		{
-			$this->params = array_slice($this->url, 2, -1);
+		$matches = array();
 
-			if (!isset($this->url[1]))
+		foreach ($routes as $path => $callback) 
+		{
+			if (preg_match($path, $_SERVER['REQUEST_URI'], $matches))
 			{
-				$this->url[1] = 'get';
-			}
+				$callback = explode('#', $callback);
+				$controller = $callback[0];
+				$method = $callback[1];
 
-			if (method_exists($this->controller, $this->url[1]))
-			{
-				$this->action = $this->url[1];
+				if (Autoloader::loadController($controller)) 
+				{
+					if (count($callback) > 2)
+					{
+						$matches = trim($matches[0], '/');
+						$match = explode('/', $matches);
+
+						$controller::$method($match);
+					}
+					else
+					{
+						$controller::$method();
+					}
+				}
+
+				break;
 			}
 		}
-		var_dump($this->action);
-
-		$this->controller->{$this->action}($this->params);
-	}
-
-	public static function get($url, $data)
-	{
-		
 	}
 }

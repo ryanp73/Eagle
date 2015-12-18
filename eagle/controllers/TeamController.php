@@ -2,13 +2,18 @@
 
 class TeamController
 {
-	public function __construct()
+	public static function get(array $url)
 	{
-
-	}
-
-	public function get()
-	{
-		echo "In the team controller at getTeam.";
+		if (count($url) == 2)
+		{
+			if ($url[0] == 'team')
+			{
+				if (Autoloader::loadModel('Team'))
+				{
+					$team = new Team($url[1]);
+					View::make('TeamTemplate', $team);
+				}
+			}
+		}
 	}
 }

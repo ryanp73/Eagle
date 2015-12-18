@@ -1,25 +1,17 @@
 <?php
 
-class Autoloader
+class Autoloader 
 {
-	private function __construct()
-	{
-	}
-
-	/**
-	 *    Load all of the necessary files
-	 *    @return void
-	 */
 	public static function loadCore()
 	{
-		require_once './eagle/config/config.php';
+		require_once './eagle/config.php';
 		require_once './eagle/core/Router.php';
+		require_once './eagle/core/View.php';
 	}
 
-	public static function loadController($name)
+	public static function loadModel($name)
 	{
-		$name[0] = strtoupper($name[0]);
-		$file = './eagle/controllers/' . $name . 'Controller.php';
+		$file = './eagle/models/' . $name . '.php';
 		if (file_exists($file))
 		{
 			require_once $file;
@@ -28,10 +20,20 @@ class Autoloader
 		return false;
 	}
 
-	public static function loadTemplate($name)
+	public static function loadController($name)
 	{
-		$name[0] = strtoupper($name[0]);
-		$file = './eagle/views/' . $name . 'Template.php';
+		$file = './eagle/controllers/' . $name . '.php';
+		if (file_exists($file))
+		{
+			require_once $file;
+			return true;	
+		}
+		return false;
+	}
+
+	public static function loadView($name)
+	{
+		$file = './eagle/views/' . $name . '.php';
 		if (file_exists($file))
 		{
 			require_once $file;

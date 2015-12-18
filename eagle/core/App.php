@@ -2,15 +2,10 @@
 
 class App
 {
-	private function __construct()
-	{
-
-	}
-
-	public static function run()
+	public function __construct()
 	{
 		require_once './eagle/core/Autoloader.php';
 		Autoloader::loadCore();
-		$router = new Router();
+		Router::handleRequests();
 	}
 }

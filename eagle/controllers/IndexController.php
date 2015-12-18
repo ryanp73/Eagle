@@ -2,13 +2,8 @@
 
 class IndexController
 {
-	public function __construct()
+	public static function get()
 	{
-		
-	}
-
-	public function get()
-	{
-		
+		echo "Hello world from IndexController.";
 	}
 }
