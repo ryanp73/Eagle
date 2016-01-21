@@ -15,7 +15,7 @@ $sthMatches = $db->prepare("CREATE TABLE IF NOT EXISTS matches (
 	redTeam1 VARCHAR(7),
 	redTeam2 VARCHAR(7),
 	redTeam3 VARCHAR(7),
-	lastUpdated INTEGER
+	lastUpdated INTEGER DEFAULT CURRENT_TIMESTAMP
 )");
 
 $sthMatches->execute();
@@ -23,7 +23,7 @@ $sthMatches->execute();
 $sthEvents = $db->prepare("CREATE TABLE IF NOT EXISTS events (
 	eventId VARCHAR(8) PRIMARY KEY,
 	name VARCHAR(128),
-	lastUpdated INTEGER
+	lastUpdated INTEGER DEFAULT CURRENT_TIMESTAMP
 )");
 
 $sthEvents->execute();
@@ -32,7 +32,7 @@ $sthTeams = $db->prepare("CREATE TABLE IF NOT EXISTS teams (
 	teamId VARCHAR(7) PRIMARY KEY,
 	nickname VARCHAR(64),
 	events TEXT,
-	lastUpdated INTEGER
+	lastUpdated INTEGER DEFAULT CURRENT_TIMESTAMP
 )"); // Events column will have pipe delimited list
 
 $sthTeams->execute();
@@ -51,7 +51,7 @@ $sthTeamEventDetails = $db->prepare("CREATE TABLE IF NOT EXISTS teamEventDetails
 	opr DOUBLE,
 	dpr DOUBLE,
 	ccwm DOUBLE,
-	lastUpdated INTEGER
+	lastUpdated INTEGER DEFAULT CURRENT_TIMESTAMP
 )");
 
 $sthTeamEventDetails->execute();
@@ -62,7 +62,7 @@ $sthAlliances = $db->prepare("CREATE TABLE IF NOT EXISTS alliances (
 	team1Id VARCHAR(7),
 	team2Id VARCHAR(7),
 	team3Id VARCHAR(7),
-	lastUpdated INTEGER
+	lastUpdated INTEGER DEFAULT CURRENT_TIMESTAMP
 )");
 
 $sthAlliances->execute();
@@ -80,7 +80,7 @@ $sthComments = $db->prepare("CREATE TABLE IF NOT EXISTS comments (
 	commentId INTEGER PRIMARY KEY AUTOINCREMENT,
 	userId INTEGER,
 	notes TEXT,
-	lastUpdated INTEGER
+	timePosted INTEGER DEFAULT CURRENT_TIMESTAMP
 )");
 
 $sthComments->execute();
